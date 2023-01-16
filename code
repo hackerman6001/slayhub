@@ -1,0 +1,92 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Slay Hub <3",
+    LoadingTitle = "discord.gg/petsimulatorz",
+    LoadingSubtitle = "lunar#2222 & ManFace#0001",
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = nil, -- Create a custom folder for your hub/game
+       FileName = "Slay Hub"
+    },
+    Discord = {
+       Enabled = false,
+       Invite = "petsimulatorz", -- The Discord invite code, do not include discord.gg/
+       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+    KeySystem = true, -- Set this to true to use our key system
+    KeySettings = {
+       Title = "Slay Hub",
+       Subtitle = "Key System",
+       Note = "Join the discord (discord.gg/petsimulatorz)",
+       FileName = "SlayHub",
+       SaveKey = true,
+       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       Key = "manfacelovesyou!23"
+    }
+ })
+ 
+
+ local Tab = Window:CreateTab("Modifiers", 4483362458) -- Title, Image
+
+ local Tab2 = Window:CreateTab("Visuals", 4483362458) -- Title, Image
+
+ local Tab3 = Window:CreateTab("Chat", 4483362458) -- Title, Image
+ 
+ local Tab4 = Window:CreateTab("Other Scripts", 4483362458) -- Title, Image
+
+local Toggle = Tab:CreateToggle({
+    Name = "WalkSpeed [Working]",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+    if Value == true then 
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 200
+    else 
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+    end
+end
+ })
+ 
+ local Toggle = Tab:CreateToggle({
+    Name = "JumpPower [Broken]",
+    CurrentValue = false,
+    Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+    if Value == true then 
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 200
+    else 
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 16
+    end
+end
+ })
+ 
+ local Button = Tab3:CreateButton({
+   Name = "Chat Breaker [Working]",
+   Callback = function()
+  for i=1,3 do 
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("\0", "All")
+end
+   end,
+})
+
+local Button = Tab3:CreateButton({
+    Name = "Emoji Chat Bypasser [Working]",
+    Callback = function()
+   for i=1,3 do 
+    local Alphabet,old = loadstring(game:HttpGet("https://raw.githubusercontent.com/x114/RobloxScripts/main/Alphabet"))()
+    old = hookmetamethod(game,"__namecall",function(self,...)
+        if getnamecallmethod() == "FireServer" and tostring(self) == "SayMessageRequest" then
+            local Arguments = {...}
+            local Word = {}
+            for Letters in string.gmatch(Arguments[1],".") do
+                table.insert(Word, Alphabet[Letters:upper()])
+            end
+            Arguments[1] = table.concat(Word,"او")
+            return old(self, unpack(Arguments))
+        end
+        return old(self, ...)
+    end)
+ end
+    end,
+ })
